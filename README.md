@@ -26,6 +26,20 @@ sudo make install
 
 * **1. Créer l'arborescence** 
 
+`* ~/.config`  
+`* ~/.config/nvim`  
+`* ~/.config/nvim/init.lua`  
+`* ~/.config/nvim/after`  
+`* ~/.config/nvim/after/plugin`  
+`* ~/.config/nvim/after/ftplugin`  
+`* ~/.config/nvim/lua`  
+`* ~/.config/nvim/lua/bruno`  
+`* ~/.config/nvim/lua/bruno/options.lua`  
+`* ~/.config/nvim/plugin`  
+`  
+
+
+
 
 * **2. Editer le ficher options.lua** 
 ```
