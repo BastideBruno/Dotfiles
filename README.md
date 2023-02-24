@@ -35,6 +35,7 @@ sudo make install
 `* ~/.config/nvim/lua`  
 `* ~/.config/nvim/lua/bruno`  
 `* ~/.config/nvim/lua/bruno/options.lua`  
+`* ~/.config/nvim/lua/bruno/packer.lua`  
 `* ~/.config/nvim/plugin`  
 `  
 
@@ -94,4 +95,98 @@ local options = {
 for key, value in pairs(options) do
 	vim.opt[key] = value
 end
+```
+* **3. Installer node.js via nvm (gestionnaire de version)** 
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+```  
+`Relancer le terminal.`  
+```
+nvm install 18
+```  
+* **4. Installer pynvim** 
+```
+pip3 install pynvim
+```  
+* **5. Installer paker.nvim** 
+```
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+```  
+* **6. Editer le ficher packer.lua** 
+```
+-- Auto install packer if not installed
+local ensure_packer = function()
+	local fn = vim.fn
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+		vim.cmd([[packadd packer.nvim]])
+		return true
+	end
+	return false
+end
+
+local packer_bootstrap = ensure_packer() -- true if packer was just installed
+
+-- Automatically source and re-sync packer when you save `packer.lua`.
+local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+	command = "source <afile> | PackerSync",
+	group = packer_group,
+	pattern = vim.fn.expand("packer.lua"),
+})
+
+local packer_ok, packer = pcall(require, "packer")
+if not packer_ok then
+	return
+end
+
+local packer_util_ok, packer_util = pcall(require, "packer.util")
+if not packer_util_ok then
+	return
+end
+
+-- Plugins
+packer.startup({
+	function(use)
+		-- Packer manager
+		use("wbthomason/packer.nvim")
+	end,
+	config = {
+		display = {
+			open_fn = function()
+				return packer_util.float({ border = "single" })
+			end,
+		},
+	},
+})
+
+```   
+
+* **7. Installer un theme**  
+`Editer le ficher packer.lua`  
+```
+-- Colorscheme
+use("folke/tokyonight.nvim")
+-- use { 'catppuccin/nvim', as = 'catppuccin' }
+```  
+`Editer le ficher colorscheme.lua`  
+```
+local tokyo_status, tokyonight = pcall(require, 'tokyonight')
+if not tokyo_status then
+	return
+end
+
+tokyonight.setup({
+	style = 'moon' -- 'storm', 'night', 'moon' and 'day'
+})
+
+vim.cmd [[ colorscheme tokyonight ]]
+
+-- CATPPUCIN THEME
+-- latte, frappe, macchiato, mocha
+-- vim.g.catppuccin_flavour = 'macchiato' 
+-- require'catppuccin'.setup()
+-- vim.cmd [[ colorscheme catppuccin ]]
 ```
