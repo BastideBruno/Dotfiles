@@ -171,7 +171,7 @@ packer.startup({
 use("folke/tokyonight.nvim")
 -- use { 'catppuccin/nvim', as = 'catppuccin' }
 ```  
-`Editer le ficher colorscheme.lua`  
+`Editer le ficher nvim/after/plugin/colorscheme.lua`  
 ```
 local tokyo_status, tokyonight = pcall(require, 'tokyonight')
 if not tokyo_status then
