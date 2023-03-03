@@ -31,11 +31,14 @@ sudo make install
 `* ~/.config/nvim/init.lua`  
 `* ~/.config/nvim/after`  
 `* ~/.config/nvim/after/plugin`  
+`* ~/.config/nvim/after/plugin/colorscheme.lua`  
+`* ~/.config/nvim/after/plugin/nvim-tree.lua`  
 `* ~/.config/nvim/after/ftplugin`  
 `* ~/.config/nvim/lua`  
 `* ~/.config/nvim/lua/bruno`  
 `* ~/.config/nvim/lua/bruno/options.lua`  
 `* ~/.config/nvim/lua/bruno/packer.lua`  
+`* ~/.config/nvim/lua/bruno/keymaps.lua`  
 `* ~/.config/nvim/plugin`  
 `  
 
@@ -189,4 +192,60 @@ vim.cmd [[ colorscheme tokyonight ]]
 -- vim.g.catppuccin_flavour = 'macchiato' 
 -- require'catppuccin'.setup()
 -- vim.cmd [[ colorscheme catppuccin ]]
+```  
+
+* **8. Installer la police Hack Nerd Fonts**  
+
+```
+wget -P ~/Downloads https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip && \
+cd ~/.local/share && \
+mkdir fonts && \
+cd fonts && \
+mv ~/Downloads/Hack.zip . && \
+unzip Hack.zip && \
+rm -rf Hack.zip
+```  
+* **9. Installer nvim-tree & Web-Dev-Icons**  
+`Editer le ficher packer.lua`  
+
+```
+-- nvim-web-devicons => icons
+use("nvim-tree/nvim-web-devicons")
+
+-- nvim-tree => file explorer
+use({
+	"nvim-tree/nvim-tree.lua",
+	requires = { "nvim-tree/nvim-web-devicons" },
+	tag = "nightly",
+})
+```  
+
+`Editer le ficher keymaps.lua`  
+
+```
+-- ###########
+-- # KEYMAPS #
+-- ###########
+
+local key = vim.keymap.set
+local full_options = { noremap = true, silent = true }
+local noremap = { noremap = true }
+
+-- Set leader key as a space.
+vim.g.mapleader = " "
+
+-- #############
+-- # NVIM-TREE #
+-- #############
+
+key("n", "<C-a>", ":NvimTreeToggle<CR>", full_options)
+key("n", "<C-f>", ":NvimTreeFindFile<CR>", full_options)
+```  
+
+`Editer le ficher init.lua`  
+
+```
+require("bruno/options")
+require("bruno/packer")
+require("bruno/keymaps.lua")
 ```
